@@ -10,7 +10,7 @@ services:
     environment:
       APP_ENV: production
       APP_DEBUG: "false"
-      APP_URL: http://IP_PUBLICA_EC2:8000
+      APP_URL: http://3.85.213.103:8000
       DB_CONNECTION: mysql
       DB_HOST: db
       DB_PORT: 3306
