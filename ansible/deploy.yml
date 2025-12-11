@@ -1,0 +1,37 @@
+---
+- hosts: api_server
+  become: yes
+  vars:
+    compose_path: /opt/api-ci-cd
+
+  tasks:
+    - name: Crear directorio para el proyecto
+      file:
+        path: "{{ compose_path }}"
+        state: directory
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+
+    - name: Copiar docker-compose.yml al servidor
+      copy:
+        src: ../docker-compose.yml
+        dest: "{{ compose_path }}/docker-compose.yml"
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+
+    - name: Login en GitHub Container Registry
+      shell: |
+        echo "{{ registry_token }}" | docker login ghcr.io -u "{{ registry_user }}" --password-stdin
+      vars:
+        registry_user: "{{ lookup('env', 'REGISTRY_USER') }}"
+        registry_token: "{{ lookup('env', 'REGISTRY_TOKEN') }}"
+
+    - name: Descargar última versión de la imagen
+      shell: |
+        cd {{ compose_path }}
+        docker compose pull
+
+    - name: Levantar contenedores con Docker Compose
+      shell: |
+        cd {{ compose_path }}
+        docker compose up -d
