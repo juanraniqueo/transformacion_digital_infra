@@ -10,7 +10,7 @@ services:
     environment:
       APP_ENV: production
       APP_DEBUG: "false"
-      APP_URL: "http://54.221.143.59:8000" # <-- cambia si tu IP cambia
+      APP_URL: "http://98.84.98.113:8000" # <-- cambia si tu IP cambia
       # Usa la misma APP_KEY que usas en local
       APP_KEY: "base64:r06O7a4jKtWqrWaZ6/sk6wHssnAxyS0ngqxsqOyRDLo="
 
